@@ -1,0 +1,24 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+.menu{
+    border: 1px solid black;
+    width: 500px;
+    height: 180px;
+    background-color: white;
+}
+
+.heading{
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin: 2px;
+    padding: 2px;
+}
+
+.menuItems{
+    padding: 4px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
