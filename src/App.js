@@ -1,17 +1,30 @@
 import { useState } from "react";
 import { Menu } from "./Components/Menu/Menu";
 import { RotationWheel } from "./Components/RotationWheel/RotationWheel";
+import { MenuItems } from "./Components/MenuItems/MenuItems";
 
 function App() {
-  const [index,setIndex] = useState(0);
-  // const[menu,setMenu]= useState('Home');
-  const handleRotate = (newIndex) =>{
+  const [index, setIndex] = useState(0);
+  const [menu, setMenu] = useState(null);
+  const [onMenu, setOnMenu] = useState(false);
+  const handleRotate = (newIndex) => {
     setIndex(newIndex);
-  }
+  };
   return (
     <div className="App">
-    <Menu activeIndex={index}/>
-    <RotationWheel onRotate={handleRotate} currentIndex={index}/>
+      {onMenu ? (
+        <MenuItems menu={menu} />
+      ) : (
+        <Menu activeIndex={index} setMenu={setMenu} setOnMenu={setOnMenu} />
+      )}
+
+      <RotationWheel
+        onRotate={handleRotate}
+        currentIndex={index}
+        setMenu={setMenu}
+        onMenu={onMenu}
+        setOnMenu={setOnMenu}
+      />
     </div>
   );
 }

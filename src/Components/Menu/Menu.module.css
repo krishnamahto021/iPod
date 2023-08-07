@@ -21,7 +21,7 @@
   display: flex;
   flex-direction: column;
   gap: 15px;
-  transition: background-color 0.3s ease;
+  transition: background-color 50s ease-in-out;
 }
 
 .activeClass {

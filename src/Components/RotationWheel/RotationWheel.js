@@ -5,8 +5,9 @@ import backward from "../../assets/backward.png";
 import pause from "../../assets/pause.jpg";
 import { useEffect, useRef } from "react";
 
-export const RotationWheel = ({ onRotate, currentIndex }) => {
+export const RotationWheel = (props) => {
   const rotationRef = useRef(null);
+  const {onRotate,currentIndex,onMenu,setOnMenu}=props;
 
   useEffect(() => {
     if (rotationRef.current) {
@@ -19,7 +20,6 @@ export const RotationWheel = ({ onRotate, currentIndex }) => {
         const angleChange = e.detail.distanceFromLast;
         currentAngle += angleChange;
         if (Math.abs(currentAngle) >= 15) {
-          // const direction = currentAngle>0?1:-1;
           let newMenuIndex;
           if (currentAngle >= 0) {
             newMenuIndex = (currentIndex + 1) % 4;
@@ -38,6 +38,10 @@ export const RotationWheel = ({ onRotate, currentIndex }) => {
       };
     }
   }, [currentIndex, onRotate]);
+
+  const handleMenuClick = ()=>{
+    setOnMenu(!onMenu);
+  }
   return (
     <>
       <div className={styles.box} ref={rotationRef}>
@@ -52,7 +56,7 @@ export const RotationWheel = ({ onRotate, currentIndex }) => {
           </div>
           <div className={styles.column}>
             <div className={styles.top}>
-              <span className={styles.menu}>Menu</span>
+              <span className={styles.menu} onClick={handleMenuClick}>Menu</span>
             </div>
             <div className={styles.bottom}>
               <img src={pause} alt="Pause" id={styles.pause} />
