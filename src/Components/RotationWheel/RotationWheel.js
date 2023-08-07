@@ -1,11 +1,46 @@
+import ZingTouch from "zingtouch";
 import styles from "./Rotation.module.css";
 import forward from "../../assets/forward.png";
 import backward from "../../assets/backward.png";
 import pause from "../../assets/pause.jpg";
-export const RotationWheel = () => {
+import { useEffect, useRef } from "react";
+
+export const RotationWheel = ({ onRotate, currentIndex }) => {
+  const rotationRef = useRef(null);
+
+  useEffect(() => {
+    if (rotationRef.current) {
+      const gestureRegion = new ZingTouch.Region(rotationRef.current);
+      const rotationGesture = new ZingTouch.Rotate({ numInputs: 1 });
+
+      let currentAngle = 0;
+
+      gestureRegion.bind(rotationRef.current, rotationGesture, function (e) {
+        const angleChange = e.detail.distanceFromLast;
+        currentAngle += angleChange;
+        if (Math.abs(currentAngle) >= 15) {
+          // const direction = currentAngle>0?1:-1;
+          let newMenuIndex;
+          if (currentAngle >= 0) {
+            newMenuIndex = (currentIndex + 1) % 4;
+          } else {
+            newMenuIndex = (currentIndex - 1 + 4) % 4;
+          }
+          currentAngle = 0;
+          if (onRotate) {
+            onRotate(newMenuIndex);
+          }
+        }
+      });
+
+      return () => {
+        gestureRegion.unbind(rotationRef.current, rotationGesture);
+      };
+    }
+  }, [currentIndex, onRotate]);
   return (
     <>
-      <div className={styles.box}>
+      <div className={styles.box} ref={rotationRef}>
         <div className={styles.outerCircle}>
           <div className={styles.row}>
             <div className={styles.left}>
